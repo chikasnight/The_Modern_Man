@@ -2,18 +2,31 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PictureController;
+use App\Http\Controllers\UserController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group(['middleware' =>'auth:sanctum'],function(){
+    Route::post('threads',[ThreadController::class,'thread']);
+    Route::put('threads/{threadId}',[ThreadController::class,'updateThread']);
+    Route::delete('threads/{threadId}',[ThreadController::class,'deleteThread']);
+
+    Route::post('comments',[CommentController::class,'comment']);
+    Route::put('comments/{commentId}',[CommentController::class,'updateComment']);
+    Route::delete('comments/{commentId}',[CommentController::class,'deleteComment']);
+
+    Route::post('pictures',[PictureController::class,'picture']);
+    Route::put('pictures/{pictureId}',[PictureController::class,'updatePicture']);
+    
+    
+    Route::post('logout',[UserController::class,'logout']);
+    Route::put('profiles/{profileId}',[UserController::class,'updateProfile']);
+
 });
+Route::post('register',[UserController::class,'register']);
+Route::post('login',[UserController::class,'login']);
+Route::get('threads/{threadId}',[GroceryController::class,'getThread']);
+
